@@ -338,7 +338,10 @@ class HM_Backup {
 	    $this->db = mysql_pconnect( DB_HOST, DB_USER, DB_PASSWORD );
 
 	    mysql_select_db( DB_NAME, $this->db );
-	    mysql_set_charset( DB_CHARSET, $this->db );
+        //Windows Phalanger php_mysql does not support this and throws a Fatal (3.0)
+        if (function_exists('mysql_set_charset')) {
+            mysql_set_charset( DB_CHARSET, $this->db );
+        }
 
 	    // Begin new backup of MySql
 	    $tables = mysql_query( 'SHOW TABLES' );
